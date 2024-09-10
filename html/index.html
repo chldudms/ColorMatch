@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퍼스널 컬러 진단</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+    <style>
+        /* CSS는 기존과 동일 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffff;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            z-index: 10; /* 제목을 물감 애니메이션 위에 표시 */
+        }
+        .container h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: #333;
+        }
+        .container button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #FF8A8A;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .container button:hover {
+            background-color: hwb(327 66% 6%);
+        }
+
+        /* 퍼스널 컬러 팔레트 */
+        .palette {
+            width: 600px;
+            height: 200px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            position: relative;
+        }
+        .color-block {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 100%;
+        }
+        .cblock1 { background-color: #F8B195; }
+        .cblock2 { background-color: #F67280; }
+        .cblock3 { background-color: #C06C84; }
+        .cblock4 { background-color: #6C5B7B; }
+        .cblock5 { background-color: #355C7D; }
+        .cblock6 { background-color: #99B898; }
+
+        /* 물감 애니메이션 */
+        .paint-drop {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff6f61;
+            border-radius: 50%;
+            animation: drop 4s infinite;
+            opacity: 0.8;
+            z-index: 5; /* 물감 애니메이션이 제목 뒤에 나타나도록 설정 */
+        }
+        @keyframes drop {
+            0% {
+                top: -20px;
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 퍼스널 컬러 팔레트 -->
+        <div class="palette">
+            <div class="cblock1"></div>
+            <div class="cblock2"></div>
+            <div class="cblock3"></div>
+            <div class="cblock4"></div>
+            <div class="cblock5"></div>
+            <div class="cblock6"></div>
+        </div>
+
+        <!-- 제목 -->
+        <h1>ColorMatch</h1>
+
+        <!-- 시작 버튼 -->
+        <button id="start-button">시작</button>
+    </div>
+
+    <script>
+        // 물감이 떨어지는 효과를 여러 번 생성
+        function Drop() {
+            const drop = document.createElement('div');
+            drop.classList.add('paint-drop');
+            
+            // 물감이 랜덤 위치에서 떨어지도록 설정
+            drop.style.left = Math.random() * window.innerWidth + 'px';
+            drop.style.backgroundColor = getRandomColor(); // 랜덤 색상
+
+            document.body.appendChild(drop);
+
+            // 일정 시간 후에 물감 요소를 제거
+            setTimeout(() => {
+                document.body.removeChild(drop);
+            }, 4000); // 애니메이션 지속 시간과 일치하게 설정
+        }
+
+        // 무작위 색상 생성 함수
+        function getRandomColor() {
+            const colors = ['#ff6f61', '#ffcc00', '#00bfff', '#32cd32', '#ff69b4'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // 매 초마다 물감이 떨어지는 효과 생성
+        setInterval(Drop, 700);
+
+        function nextPage() {
+            // 페이지 전환 코드 추가
+            window.location.href = 'name.html';  // 새로운 페이지로 이동
+        }
+
+        document.getElementById('start-button').addEventListener('click', nextPage);
+    </script>
+</body>
+</html>

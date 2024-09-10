@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+    <meta charset="UTF-8">
+    <title>퍼스널 컬러 설문조사</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 질문 카드 섹션 -->
+        <div class="question-card">
+            <h2>당신의 피부는 햇빛에 노출되었을 때 어떻게 반응하나요?</h2>
+            <div class="options">
+                <button class="option-button" data-value="cool">쉽게 타고 붉어짐</button>
+                <button class="option-button" data-value="warm">천천히 타며 갈색으로 변함</button>
+                <button class="option-button" data-value="neutral">거의 타지 않음</button>
+            </div>
+        </div>
+
+        <!-- 다음 질문 카드로 가는 버튼 -->
+        <div class="next-button-container">
+            <button class="next-button" id="nextQuestion">다음</button>
+        </div>
+    </div>
+
+    <script>document.addEventListener('DOMContentLoaded', function() {
+        const options = document.querySelectorAll('.option-button');
+        const nextButton = document.getElementById('nextQuestion');
+        let selectedValue = null;
+        let selectedName = null;
+    
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                options.forEach(btn => btn.style.backgroundColor = '#FFD1DC');
+                option.style.backgroundColor = '#FFB3C6';
+                selectedValue = option.getAttribute('data-value');
+                selectedName = option.getAttribute('data-name');
+            });
+        });
+    
+        nextButton.addEventListener('click', function() {
+            if (selectedValue) {
+                const data = {};
+                data[selectedName] = selectedValue;
+    
+                fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // 다음 질문 로딩 로직 또는 결과 페이지 이동 추가
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('답변을 선택해주세요.');
+            }
+        });
+    });
+    
+    </script>
+</body>
+</html>
