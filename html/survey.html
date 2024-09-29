@@ -1,71 +1,124 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
     <meta charset="UTF-8">
-    <title>퍼스널 컬러 설문조사</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+    <title>질문 시트</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <!-- 질문 카드 섹션 -->
-        <div class="question-card">
-            <h2>당신의 피부는 햇빛에 노출되었을 때 어떻게 반응하나요?</h2>
-            <div class="options">
-                <button class="option-button" data-value="cool">쉽게 타고 붉어짐</button>
-                <button class="option-button" data-value="warm">천천히 타며 갈색으로 변함</button>
-                <button class="option-button" data-value="neutral">거의 타지 않음</button>
-            </div>
-        </div>
 
-        <!-- 다음 질문 카드로 가는 버튼 -->
-        <div class="next-button-container">
-            <button class="next-button" id="nextQuestion">다음</button>
+    <div class="container">
+        <h1 id="question-title">질문 1</h1>
+        <div class="options">
+            <button class="optionBtn" id="op1" data-score="2">옵션 1</button>
+            <button class="optionBtn" id="op2" data-score="2">옵션 2</button>
+            <button class="optionBtn" id="op3" data-score="1">옵션 3</button>
         </div>
     </div>
 
-    <script>document.addEventListener('DOMContentLoaded', function() {
-        const options = document.querySelectorAll('.option-button');
-        const nextButton = document.getElementById('nextQuestion');
-        let selectedValue = null;
-        let selectedName = null;
+    <script>
+        // 질문과 답변 데이터 (각각 질문과 옵션들로 이루어짐)
+          // 질문과 답변 데이터 (각각 질문과 옵션들로 이루어짐)
+          const questions = [
+            {
+                question: "당신의 피부는 햇빛에 노출되었을 때 어떻게 반응하나요?",
+                options: [
+                    { text: "쉽게 타고 붉어짐", score: 5 },
+                    { text: "천천히 타며 갈색으로 변함", score: 3 },
+                    { text: "거의 타지 않음", score: 1 }
+                ]
+            },
+            {
+                question: "당신의 눈 색깔은 무엇인가요?",
+                options: [
+                    { text: "푸른색 혹은 회색", score: 5 },
+                    { text: "녹색 또는 갈색", score: 3 },
+                    { text: "진한 갈색", score: 2 }
+                ]
+            },
+            {
+                question: "자주 입는 옷의 색상은 어떤가요?",
+                options: [
+                    { text: "차가운 색상 (파랑, 회색)", score: 3 },
+                    { text: "따뜻한 색상 (빨강, 주황)", score: 2 },
+                    { text: "중립적인 색상 (검정, 흰색)", score: 1 }
+                ]
+            },
+            {
+                question: "선호하는 액세서리 색상은 무엇인가요?",
+                options: [
+                    { text: "은색", score: 3 },
+                    { text: "금색", score: 2 },
+                    { text: "로즈골드 또는 구리색", score: 1 }
+                ]
+            },
+            {
+                question: "당신의 머리카락 색은 무엇인가요?",
+                options: [
+                    { text: "검정 또는 짙은 갈색", score: 4 },
+                    { text: "금발 또는 밝은 갈색", score: 2 },
+                    { text: "적갈색 또는 중간 갈색", score: 1 }
+                ]
+            },
+            {
+                question: "당신의 피부 타입은 무엇인가요?",
+                options: [
+                    { text: "지성 피부", score: 3 },
+                    { text: "건성 피부", score: 2 },
+                    { text: "복합성", score: 1 }
+                ]
+            }
+        ];
+            
+            // 더 많은 질문 추가 가능
     
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                options.forEach(btn => btn.style.backgroundColor = '#FFD1DC');
-                option.style.backgroundColor = '#FFB3C6';
-                selectedValue = option.getAttribute('data-value');
-                selectedName = option.getAttribute('data-name');
+
+        let crrQidx = 0;
+
+        const  Q = document.getElementById('question-title');
+        const opBtn = [document.getElementById('op1'), document.getElementById('op2'), document.getElementById('op3')];
+
+        // 질문과 옵션을 화면에 렌더링하는 함수
+        function loadQuestion() {
+            const crrQ = questions[crrQidx];
+            Q.textContent = crrQ.question;
+
+            crrQ.options.forEach((op, i) => {
+                opBtn[i].textContent = op.text;
+                opBtn[i].dataset.score = op.score;
             });
-        });
-    
-        nextButton.addEventListener('click', function() {
-            if (selectedValue) {
-                const data = {};
-                data[selectedName] = selectedValue;
-    
+        }
+
+        // 각 버튼 클릭 시 서버로 데이터를 전송하고 다음 질문으로 이동
+        opBtn.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const score = e.target.dataset.score;
+                crrQidx++;
+
+                // 서버로 점수 데이터를 전송
                 fetch('/submit', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json',
                     },
-                    body: new URLSearchParams(data)
+                    body: JSON.stringify({ score: score }),
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Success:', data);
-                    // 다음 질문 로딩 로직 또는 결과 페이지 이동 추가
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+                    if (crrQidx < questions.length) {
+                        loadQuestion(); // 다음 질문 로드
+                    } else {
+                        window.location.href = '/result.html'; // 설문이 끝나면 결과 페이지로 이동
+                    }
                 });
-            } else {
-                alert('답변을 선택해주세요.');
-            }
+            });
         });
-    });
-    
+
+        // 첫 번째 질문 로드
+        loadQuestion();
     </script>
+
 </body>
 </html>
