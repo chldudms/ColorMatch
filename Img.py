@@ -1,41 +1,44 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
-import base64
-import io
-from PIL import Image
+import random
+from flask import Flask, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
-# 피부톤 분석 함수 (임의의 로직)
-def analyze_skin_tone(image_data):
-    # 피부톤 분석 로직 (여기서 분석 로직을 수정할 수 있습니다.)
-    return "봄"  # 예시로 봄으로 고정
+# 계절 톤을 랜덤으로 결정하는 함수
+def analyze_skin_tone():
+    seasons = ['겨울 쿨톤', '여름 쿨톤', '봄 웜톤', '가을 웜톤']
+    return random.choice(seasons)
 
-@app.route('/')
-def index():
+# 캡처 페이지 렌더링
+@app.route('/chapture')
+def chapture():
     return render_template('chapture.html')
 
+# 사진을 받고 계절 톤을 분석하는 엔드포인트
 @app.route('/analyze_skin', methods=['POST'])
 def analyze_skin():
-    data = request.get_json()
-    user_image = data.get('image')
+    # 이미지 데이터 수신 (프론트엔드에서 보내온 데이터 처리)
+    image_data = request.form.get('image_data')  # 이미지 데이터
 
-    # Base64 이미지 데이터 처리
-    image_data = user_image.split(',')[1]  # 'data:image/png;base64,' 제거
-    image_bytes = base64.b64decode(image_data)
-    image = Image.open(io.BytesIO(image_bytes))
+    # 세션에 이미지 저장
+    session['captured_image'] = image_data
 
-    # 피부톤 분석
-    skin_tone = analyze_skin_tone(user_image)
+    # 랜덤으로 계절 톤 결정
+    season = analyze_skin_tone()
+    session['season'] = season
 
-    return jsonify({
-        'skin_tone': skin_tone,
-        'user_image': user_image  # 원본 이미지 데이터 반환
-    })
+    # 결과 페이지로 리다이렉트
+    return redirect(url_for('result'))
 
+# 결과 페이지 렌더링
 @app.route('/result')
 def result():
-    # 결과 페이지는 JS에서 URL로 전송한 데이터로 표시됨
-    return render_template('result.html')
+    # 세션에서 사진, 계절 톤 정보 가져오기
+    captured_image = session.get('captured_image', None)
+    season = session.get('season', '결정되지 않음')
+
+    # 결과 페이지 렌더링
+    return render_template('result.html', image=captured_image, season=season)
 
 if __name__ == '__main__':
     app.run(debug=True)

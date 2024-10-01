@@ -5,7 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
     <title>질문 시트</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+ <style>
+    body {
+        font-family: 'Noto Sans KR';
+        background-color: #fce4ec; /* 부드러운 연핑크 배경색 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .container {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+       
+    }
+    
+    h1 {
+        color: #ec407a; /* 진한 핑크 색상 */
+        font-size: 29px;
+        margin-bottom: 30px;
+    }
+    
+    .options {
+        margin-top: 10px;
+    }
+    
+    .optionBtn {
+        background-color: #f8bbd0; /* 버튼 연핑크 */
+        border: none;
+        padding: 20px 35px;
+        font-size: 17px;
+        color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 5px;
+        transition: background-color 0.3s;
+        display: block;
+        width: 100%;
+    }
+    
+    .optionBtn:hover {
+        background-color: #ec407a; /* 버튼 hover시 진한 핑크 */
+    }
+    
+    .hidden {
+        display: none;
+    }
+    </style>
 </head>
 <body>
 
@@ -17,11 +70,9 @@
             <button class="optionBtn" id="op3" data-score="1">옵션 3</button>
         </div>
     </div>
-
     <script>
         // 질문과 답변 데이터 (각각 질문과 옵션들로 이루어짐)
-          // 질문과 답변 데이터 (각각 질문과 옵션들로 이루어짐)
-          const questions = [
+        const questions = [
             {
                 question: "당신의 피부는 햇빛에 노출되었을 때 어떻게 반응하나요?",
                 options: [
@@ -71,54 +122,60 @@
                 ]
             }
         ];
-            
-            // 더 많은 질문 추가 가능
     
-
         let crrQidx = 0;
-
-        const  Q = document.getElementById('question-title');
+        let totalScore = 0;  // 총 점수 누적
+    
+        const Q = document.getElementById('question-title');
         const opBtn = [document.getElementById('op1'), document.getElementById('op2'), document.getElementById('op3')];
-
+    
         // 질문과 옵션을 화면에 렌더링하는 함수
         function loadQuestion() {
             const crrQ = questions[crrQidx];
             Q.textContent = crrQ.question;
-
+    
             crrQ.options.forEach((op, i) => {
                 opBtn[i].textContent = op.text;
                 opBtn[i].dataset.score = op.score;
             });
         }
-
-        // 각 버튼 클릭 시 서버로 데이터를 전송하고 다음 질문으로 이동
+    
+        // 각 버튼 클릭 시 다음 질문으로 이동, 점수 누적
         opBtn.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const score = e.target.dataset.score;
-                crrQidx++;
+                const score = parseInt(e.target.dataset.score); // 버튼에서 점수 가져오기
+                totalScore += score;  // 점수 누적
+                crrQidx++;  // 다음 질문으로 이동
+    
+                // 다음 질문 로드 또는 설문 종료 후 서버로 점수 전송
+                if (crrQidx < questions.length) {
+                    loadQuestion();  // 다음 질문 로드
+                } else {
+                    // 설문이 끝났을 때 서버로 점수 전송
+                   
+                    console.log(totalScore)
 
-                // 서버로 점수 데이터를 전송
-                fetch('/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ score: score }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (crrQidx < questions.length) {
-                        loadQuestion(); // 다음 질문 로드
-                    } else {
-                        window.location.href = '/result.html'; // 설문이 끝나면 결과 페이지로 이동
-                    }
-                });
+                    fetch('/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ total_score: totalScore }),  // 총 점수 전송
+                    })
+                    
+                    .then(response => response.json())
+                    // .then(data => {
+                    //     // 설문이 끝나면 캡처 페이지로 이동
+                    //     window.location.href = 'chapture.html';
+                    // });
+                    window.location.href = '/result';
+                }
             });
         });
-
+    
         // 첫 번째 질문 로드
         loadQuestion();
-    </script>
-
+    </script> 
+    
 </body>
 </html>

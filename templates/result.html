@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결과</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa; /* 쿨톤 느낌의 밝은 하늘색 배경 */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1a237e; /* 쿨톤 느낌의 진한 파란색 */
+            margin-bottom: 20px;
+        }
+
+        .palette {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 100px;
+            margin: 0 10px;
+            border-radius: 10px;
+        }
+
+        .color-box:nth-child(1) { background-color: #b3e5fc; } /* 연한 하늘색 */
+        .color-box:nth-child(2) { background-color: #82b1ff; } /* 연한 파랑 */
+        .color-box:nth-child(3) { background-color: #80deea; } /* 밝은 청록색 */
+        .color-box:nth-child(4) { background-color: #0288d1; } /* 진한 파란색 */
+        .color-box:nth-child(5) { background-color: #5c6bc0; } /* 연보라색 */
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #0288d1;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3949ab; /* 버튼 호버 시 연한 색으로 */
+        }
+
+        .share-btn {
+            background-color: #0288d1;
+        }
+
+        .share-btn:hover {
+            background-color: #03a9f4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>당신은 쿨톤입니다!</h1>
+
+        <!-- 쿨톤 컬러 팔레트 -->
+        <div class="palette">
+            <div class="color-box"></div>
+            <div class="color-box"></div>
+            <div class="color-box"></div>
+            <div class="color-box"></div>
+            <div class="color-box"></div>
+        </div>
+
+        <!-- 추천 화장품 섹션 -->
+        <div class="section">
+            <h2>추천 화장품</h2>
+            <ul>
+                <li>쿨톤 피부에 잘 어울리는 립스틱: 핑크 베이지</li>
+                <li>쿨톤에 적합한 블러셔: 라벤더 핑크</li>
+                <li>쿨톤 아이섀도우: 퍼플, 네이비</li>
+            </ul>
+        </div>
+
+        <!-- 추천 옷 섹션 -->
+        <div class="section">
+            <h2>추천 의상</h2>
+            <ul>
+                <li>쿨톤에 어울리는 컬러: 라벤더, 블루, 그레이</li>
+                <li>쿨톤에 잘 어울리는 스타일: 밝은 블루 셔츠, 네이비 코트</li>
+                <li>악세서리 추천: 실버 톤의 주얼리</li>
+            </ul>
+        </div>
+
+        <!-- 공유하기와 다시하기 버튼 -->
+        <div class="btn-group">
+            <button class="share-btn" onclick="shareResult()">공유하기</button>
+            <button onclick="restartTest()">다시하기</button>
+        </div>
+    </div>
+
+    <script>
+        // 공유하기 버튼 클릭 시 결과를 공유하는 기능 (웹 공유 API)
+        function shareResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '퍼스널컬러 진단 결과',
+                    text: '나는 쿨톤이야! 당신도 퍼스널컬러를 진단해보세요!',
+                    url: window.location.href,
+                })
+                .then(() => console.log('공유 성공'))
+                .catch((error) => console.log('공유 실패:', error));
+            } else {
+                alert('이 브라우저는 공유 기능을 지원하지 않습니다.');
+            }
+        }
+
+        // 다시하기 버튼 클릭 시
+        function restartTest() {
+            window.location.href = '/';  // 홈 또는 설문 첫 페이지로 이동
+        }
+    </script>
+
+</body>
+</html>

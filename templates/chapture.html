@@ -122,8 +122,9 @@
 
         document.getElementById('proceed').addEventListener('click', () => {
             const imageData = canvas.toDataURL('image/png');
+            window.location.href= "/result"
 
-            fetch('/analyze_skin', {
+            fetch('/analyze_image', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

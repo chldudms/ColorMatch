@@ -137,7 +137,9 @@
 
         function nextPage() {
             // 페이지 전환 코드 추가
-            window.location.href = 'name.html';  // 새로운 페이지로 이동
+           // JS에서 페이지 이동
+        window.location.href = "/name";  // Flask 라우팅 경로에 맞게 수정
+ // 새로운 페이지로 이동
         }
 
         document.getElementById('start-button').addEventListener('click', nextPage);

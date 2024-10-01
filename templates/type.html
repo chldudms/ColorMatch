@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퍼스널컬러 진단 선택 페이지</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color : #fce4ec;; /* 연핑크색 배경 */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff; /* 흰색 배경 */
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* 버튼 간격 */
+        }
+
+        .button {
+            text-decoration: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            color: #fff;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-btn {
+            background-color: #f8bbd0; /* 따뜻한 오렌지색 */
+        }
+
+        .survey-btn {
+            background-color: #f8bbd0; /* 부드러운 오렌지색 */
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>퍼스널컬러 진단</h1>
+        <p>아래 버튼 중 하나를 선택하여 퍼스널컬러 검사를 시작하세요.</p>
+        <div class="button-container">
+            <a id="chapture" class="button photo-btn">사진 인식으로 시작하기</a>
+            <a href="/survey" class="button survey-btn">설문으로 시작하기</a>
+        </div>
+    </div>
+    <script>
+        chap = document.getElementById('chapture');
+        surv =  document.getElementById('survey');
+
+        chap.addEventListener('click', (e) => {
+            window.location.href="/chap"
+        })
+       surv.addEventListener('click', (e) => {
+            window.location.href="/survey"
+        })
+    </script>
+</body>
+</html>
