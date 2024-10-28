@@ -22,6 +22,22 @@ def type_selection():
 def survey():
     return render_template('survey.html')  # 설문 페이지
 
+# @app.route('/submit', methods=['POST'])
+# def submit():
+#     data = request.get_json()  # 클라이언트에서 보낸 JSON 데이터를 받음
+#     total_score = data['total_score']
+    
+#     # 점수를 기준으로 톤 결정
+#     if total_score > 20:
+#         tone = '쿨톤'
+#     elif total_score > 13:
+#         tone = '웜톤'
+#     else:
+#         tone = '뉴트럴톤'
+
+#     # 결과 페이지로 리다이렉트
+#     return redirect(url_for('/result', tone=tone)) 
+
 # 5. 사진 분석 시작 라우트
 @app.route('/chap')
 def photo_analysis():
