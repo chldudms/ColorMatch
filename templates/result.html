@@ -200,6 +200,10 @@
         var total_score = localStorage.getItem('totalScore');
         var tone = "";
 
+        console.log(name)
+        console.log(total_score)
+        console.log(tone)
+
         // 점수에 따라 tone 값 결정
         if (total_score > 20) {
             tone = "쿨";
@@ -212,7 +216,7 @@
         // 이름과 tone을 HTML에 표시
         document.getElementById('userName').textContent = name;
         var colorToneElement = document.getElementById('colorTone');
-        colorToneElement.textContent = tone + " 톤";
+        colorToneElement.textContent = tone + "톤";
 
         // tone에 따른 클래스 추가로 스타일 변경
         if (tone === "쿨") {

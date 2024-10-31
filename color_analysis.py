@@ -50,7 +50,7 @@ def analyze():
 
 @app.route('/')
 def index():
-    return render_template('in.html')
+    return render_template('chapture.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

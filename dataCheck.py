@@ -28,7 +28,7 @@ def analyze_skin():
     session['season'] = season
 
     # 결과 페이지로 리다이렉트
-    return redirect(url_for('result'))
+    return redirect(url_for('result1.html'))
 
 # 결과 페이지 렌더링
 @app.route('/result')
