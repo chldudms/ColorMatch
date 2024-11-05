@@ -29,7 +29,9 @@
 
 <body>
     <h1>퍼스널 컬러 분석 결과</h1>
-    <h2>당신의 퍼스널 컬러는: {{ tone }}</h2>
+    <h1 id="userName"></h1>
+    <h2>님의 퍼스널 컬러는: {{ tone }}</h2>
+    <button id="replayBtn" onclick="replay()">다시하기</button>
 
     <div class="palette">
         {% if tone == '봄웜' %}
@@ -54,5 +56,19 @@
     </div>
     <p>이 색상들은 당신에게 잘 어울리는 색상입니다.</p>
 </body>
+<script>
+  var name = localStorage.getItem('userName')
+  var tone = "{{ tone }}";
+    console.log(name)
+    console.log(tone)
+    
 
+
+
+
+    
+    function replay(){
+        window.location.href = '/'
+    }
+</script>
 </html>

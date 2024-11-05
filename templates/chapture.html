@@ -104,19 +104,6 @@
                     .catch(error => {
                         console.error("카메라 접근 오류:", error);
                     });
-    // function capturePhoto() {
-    //                 const video = document.getElementById('video');
-    //                 const canvas = document.getElementById('canvas');
-    //                 const context = canvas.getContext('2d');
-
-    //                 // 캔버스 크기를 비디오와 맞추고 캡처
-    //                 canvas.width = video.videoWidth;
-    //                 canvas.height = video.videoHeight;
-    //                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    //                 // 캡처한 사진을 데이터 URL로 변환
-    //                     const imageData = canvas.toDataURL('image/png');}
-       
            captureButton.addEventListener('click', () => {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
@@ -161,47 +148,6 @@
                 });
 
         });
-
-                    
-    
-         
-                    
-        // captureButton.addEventListener('click', () => {
-        //     canvas.width = video.videoWidth;
-        //     canvas.height = video.videoHeight;
-        //     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        //     const imageData = canvas.toDataURL('image/png');
-        //     capturedImage.src = imageData;
-
-        //     captureScreen.classList.add('hidden');
-        //     confirm.classList.remove('hidden');
-        // });
-
-        // document.getElementById('retake').addEventListener('click', () => {
-        //     confirm.classList.add('hidden');
-        //     captureScreen.classList.remove('hidden');
-        // });
-
-        // document.getElementById('proceed').addEventListener('click', () => {
-        //     const imageData = canvas.toDataURL('image/png');
-        //     window.location.href= "/result"
-
-        //     fetch('/analyze_image', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({ image: imageData })
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         window.location.href = `/${data.season}`;
-        //     })
-        //     .catch(err => {
-        //         console.error('서버로 이미지 전송 중 오류 발생:', err);
-        //     });
-        // });
     </script>
 </body>
 </html>

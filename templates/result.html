@@ -121,7 +121,7 @@
         }
 
         /* 공유 버튼 */
-        .share-button {
+        .replayBtn {
             margin-top: 40px;
             padding: 12px 24px;
             font-size: 1.2rem;
@@ -132,7 +132,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .share-button:hover {
+        .replayBtn:hover {
             background-color: #357ABD;
         }
 
@@ -146,34 +146,55 @@
 <body>
     <div class="result-container">
         <h1 id="userName"></h1>
-        <h2>님의 퍼스널 컬러는:</h2>
+        <h2>님의 퍼스널 컬러는: {{ tone }}</h2>
         <div id="colorTone" class="tone-display"></div>
 
-      <!-- 컬러 팔레트 -->
+<!-- 컬러 팔레트 -->
 <div class="palette">
     <h3>추천 컬러 팔레트</h3>
     <div class="colors">
-        <div class="color-box" style="background-color: #4A90E2;"></div>
-        <div class="color-box" style="background-color: #50E3C2;"></div>
-        <div class="color-box" style="background-color: #B8E986;"></div>
-        <div class="color-box" style="background-color: #F5A623;"></div>
-        <div class="color-box" style="background-color: #D0021B;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
+        {% if tone == '봄웜' %}
+        <div class="color-box" style="background-color: rgb(255, 228, 196);"></div>
+        <div class="color-box" style="background-color: rgb(255, 192, 203);"></div>
+        <div class="color-box" style="background-color: rgb(255, 218, 185);"></div>
+        <div class="color-box" style="background-color: rgb(255, 236, 186);"></div>
+        <div class="color-box" style="background-color: rgb(255, 204, 112);"></div>
+        <div class="color-box" style="background-color: rgb(253, 189, 186);"></div>
+        <div class="color-box" style="background-color: rgb(240, 174, 76);"></div>
+        <div class="color-box" style="background-color: rgb(255, 153, 0);"></div>
+        {% elif tone == '가을웜' %}
+        <div class="color-box" style="background-color: rgb(255, 165, 0);"></div>
+        <div class="color-box" style="background-color: rgb(205, 133, 63);"></div>
+        <div class="color-box" style="background-color: rgb(255, 99, 71);"></div>
+        <div class="color-box" style="background-color: rgb(255, 182, 193);"></div>
+        <div class="color-box" style="background-color: rgb(139, 69, 19);"></div>
+        <div class="color-box" style="background-color: rgb(255, 215, 0);"></div>
+        <div class="color-box" style="background-color: rgb(188, 143, 143);"></div>
+        <div class="color-box" style="background-color: rgb(255, 140, 0);"></div>
+        {% elif tone == '여름쿨' %}
+        <div class="color-box" style="background-color: rgb(173, 216, 230);"></div>
+        <div class="color-box" style="background-color: rgb(135, 206, 250);"></div>
+        <div class="color-box" style="background-color: rgb(240, 248, 255);"></div>
+        <div class="color-box" style="background-color: rgb(220, 220, 220);"></div>
+        <div class="color-box" style="background-color: rgb(176, 224, 230);"></div>
+        <div class="color-box" style="background-color: rgb(240, 255, 255);"></div>
+        <div class="color-box" style="background-color: rgb(173, 216, 230);"></div>
+        <div class="color-box" style="background-color: rgb(135, 206, 250);"></div>
+        {% elif tone == '겨울쿨' %}
+        <div class="color-box" style="background-color: rgb(0, 139, 139);"></div>
+        <div class="color-box" style="background-color: rgb(70, 130, 180);"></div>
+        <div class="color-box" style="background-color: rgb(25, 25, 112);"></div>
+        <div class="color-box" style="background-color: rgb(112, 128, 144);"></div>
+        <div class="color-box" style="background-color: rgb(0, 255, 255);"></div>
+        <div class="color-box" style="background-color: rgb(30, 144, 255);"></div>
+        <div class="color-box" style="background-color: rgb(0, 191, 255);"></div>
+        <div class="color-box" style="background-color: rgb(123, 104, 238);"></div>
+        {% else %}
+        <p>측정할 수 없음</p>
+        {% endif %}
     </div>
-    <div class="colors">
-        <div class="color-box" style="background-color: #4A90E2;"></div>
-        <div class="color-box" style="background-color: #50E3C2;"></div>
-        <div class="color-box" style="background-color: #B8E986;"></div>
-        <div class="color-box" style="background-color: #F5A623;"></div>
-        <div class="color-box" style="background-color: #D0021B;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
-        <div class="color-box" style="background-color: #9013FE;"></div>
-    </div>
-</div>
 
+</div>
 
         <!-- 추천 아이템 리스트 -->
         <div class="recommendation-category">
@@ -192,95 +213,93 @@
         </div>
 
         <!-- 공유 버튼 -->
-        <button class="share-button" onclick="shareResult()">결과 페이지 공유하기</button>
+        <button class="replayBtn" onclick="replay()">다시하기</button>
     </div>
 
     <script>
         var name = localStorage.getItem('userName');
-        var total_score = localStorage.getItem('totalScore');
-        var tone = "";
+        var tone = "{{ tone }}";
 
         console.log(name)
-        console.log(total_score)
         console.log(tone)
-
-        // 점수에 따라 tone 값 결정
-        if (total_score > 20) {
-            tone = "쿨";
-        } else if (total_score > 15) {
-            tone = "뉴트럴";
-        } else {
-            tone = "웜";
-        }
 
         // 이름과 tone을 HTML에 표시
         document.getElementById('userName').textContent = name;
-        var colorToneElement = document.getElementById('colorTone');
-        colorToneElement.textContent = tone + "톤";
-
-        // tone에 따른 클래스 추가로 스타일 변경
-        if (tone === "쿨") {
-            colorToneElement.classList.add('cool');
-        } else if (tone === "웜") {
-            colorToneElement.classList.add('warm');
-        } else {
-            colorToneElement.classList.add('neutral');
-        }
+        // var colorToneElement = document.getElementById('colorTone');
+        // colorToneElement.textContent = tone + "톤";
 
         // 추천 아이템 목록 설정
         var recommendations = {
-            "쿨": {
+            "여름쿨": {
                 makeup: [
-                    { name: "쿨톤 화장품 1", img: "img/cool-makeup1.jpg" },
-                    { name: "쿨톤 화장품 2", img: "img/cool-makeup2.jpg" },
-                    { name: "쿨톤 화장품 3", img: "img/cool-makeup3.jpg" },
+                    { name: "여쿨 화장품 1", img: "img/롬앤여쿨립.png" },
+                    { name: "여쿨 화장품 2", img: "img/베러댄치크여쿨.png" },
+                    { name: "여쿨 화장품 3", img: "img/여름쿨라이트-섀도우-추천-롬앤-피오니누드가든.png" },
                 ],
                 fashion: [
-                    { name: "쿨톤 옷 1", img: "img/cool-fashion1.jpg" },
-                    { name: "쿨톤 옷 2", img: "img/cool-fashion2.jpg" },
-                    { name: "쿨톤 옷 3", img: "img/cool-fashion3.jpg" },
+                    { name: "여쿨 옷 1", img: "img/cool-fashion1.jpg" },
+                    { name: "여쿨 옷 2", img: "img/cool-fashion2.jpg" },
+                    { name: "여쿨 옷 3", img: "img/cool-fashion3.jpg" },
                 ],
                 date: [
-                    { name: "쿨톤 데이트 장소 1", img: "img/cool-date1.jpg" },
-                    { name: "쿨톤 데이트 장소 2", img: "img/cool-date2.jpg" },
-                    { name: "쿨톤 데이트 장소 3", img: "img/cool-date3.jpg" },
+                    { name: "여쿨 데이트 장소 1", img: "img/cool-date1.jpg" },
+                    { name: "여쿨 데이트 장소 2", img: "img/cool-date2.jpg" },
+                    { name: "여쿨 데이트 장소 3", img: "img/cool-date3.jpg" },
                 ],
             },
-            "웜": {
+            "봄웜": {
                 makeup: [
-                    { name: "웜톤 화장품 1", img: "img/warm-makeup1.jpg" },
-                    { name: "웜톤 화장품 2", img: "img/warm-makeup2.jpg" },
-                    { name: "웜톤 화장품 3", img: "img/warm-makeup3.jpg" },
+                    { name: "봄웜 화장품 1", img: "img/warm-makeup1.jpg" },
+                    { name: "봄웜 화장품 2", img: "img/warm-makeup2.jpg" },
+                    { name: "봄웜 화장품 3", img: "img/warm-makeup3.jpg" },
                 ],
                 fashion: [
-                    { name: "웜톤 옷 1", img: "img/warm-fashion1.jpg" },
-                    { name: "웜톤 옷 2", img: "img/warm-fashion2.jpg" },
-                    { name: "웜톤 옷 3", img: "img/warm-fashion3.jpg" },
+                    { name: "봄웜 옷 1", img: "img/warm-fashion1.jpg" },
+                    { name: "봄웜 옷 2", img: "img/warm-fashion2.jpg" },
+                    { name: "봄웜 옷 3", img: "img/warm-fashion3.jpg" },
                 ],
                 date: [
-                    { name: "웜톤 데이트 장소 1", img: "img/warm-date1.jpg" },
-                    { name: "웜톤 데이트 장소 2", img: "img/warm-date2.jpg" },
-                    { name: "웜톤 데이트 장소 3", img: "img/warm-date3.jpg" },
+                    { name: "봄웜 데이트 장소 1", img: "img/warm-date1.jpg" },
+                    { name: "봄웜 데이트 장소 2", img: "img/warm-date2.jpg" },
+                    { name: "봄웜 데이트 장소 3", img: "img/warm-date3.jpg" },
                 ],
             },
-            "뉴트럴": {
+            "가을웜": {
                 makeup: [
-                    { name: "뉴트럴 화장품 1", img: "img/neutral-makeup1.jpg" },
-                    { name: "뉴트럴 화장품 2", img: "img/neutral-makeup2.jpg" },
-                    { name: "뉴트럴 화장품 3", img: "img/neutral-makeup3.jpg" },
+                    { name: "가을웜 화장품 1", img: "img/warm-makeup1.jpg" },
+                    { name: "가을웜 화장품 2", img: "img/warm-makeup2.jpg" },
+                    { name: "가을웜 화장품 3", img: "img/warm-makeup3.jpg" },
                 ],
                 fashion: [
-                    { name: "뉴트럴 옷 1", img: "img/neutral-fashion1.jpg" },
-                    { name: "뉴트럴 옷 2", img: "img/neutral-fashion2.jpg" },
-                    { name: "뉴트럴 옷 3", img: "img/neutral-fashion3.jpg" },
+                    { name: "가을웜 옷 1", img: "img/warm-fashion1.jpg" },
+                    { name: "가을웜 옷 2", img: "img/warm-fashion2.jpg" },
+                    { name: "가을웜 옷 3", img: "img/warm-fashion3.jpg" },
                 ],
                 date: [
-                    { name: "뉴트럴 데이트 장소 1", img: "img/neutral-date1.jpg" },
-                    { name: "뉴트럴 데이트 장소 2", img: "img/neutral-date2.jpg" },
-                    { name: "뉴트럴 데이트 장소 3", img: "img/neutral-date3.jpg" },
+                    { name: "가을웜 데이트 장소 1", img: "img/warm-date1.jpg" },
+                    { name: "가을웜 데이트 장소 2", img: "img/warm-date2.jpg" },
+                    { name: "가을웜 데이트 장소 3", img: "img/warm-date3.jpg" },
                 ],
             },
+            "겨울쿨": {
+                makeup: [
+                    { name: "겨울쿨 화장품 1", img: "img/cool-makeup1.jpg" },
+                    { name: "겨울쿨 화장품 2", img: "img/cool-makeup2.jpg" },
+                    { name: "겨울쿨 화장품 3", img: "img/cool-makeup3.jpg" },
+                ],
+                fashion: [
+                    { name: "겨울쿨 옷 1", img: "img/cool-fashion1.jpg" },
+                    { name: "겨울쿨 옷 2", img: "img/cool-fashion2.jpg" },
+                    { name: "겨울쿨 옷 3", img: "img/cool-fashion3.jpg" },
+                ],
+                date: [
+                    { name: "겨울쿨 데이트 장소 1", img: "img/cool-date1.jpg" },
+                    { name: "겨울쿨 데이트 장소 2", img: "img/cool-date2.jpg" },
+                    { name: "겨울쿨 데이트 장소 3", img: "img/cool-date3.jpg" },
+                ],
+            }
         };
+
 
         // 추천 아이템을 페이지에 추가하는 함수
         function displayRecommendations() {
@@ -316,15 +335,8 @@
         }
 
         // 결과 페이지 공유하기 기능
-        function shareResult() {
-            var shareText = `${name}님의 퍼스널 컬러는 ${tone} 톤입니다.`;
-            navigator.share({
-                title: '퍼스널 컬러 결과',
-                text: shareText,
-                url: window.location.href
-            }).catch((error) => {
-                console.error('Error sharing:', error);
-            });
+        function replay() {
+          window.location.href='/'
         }
 
         // 페이지 로드 시 추천 아이템 표시
