@@ -39,17 +39,31 @@ def analyze_skin_tone(image_data):
     # RGB 색상으로 피부톤 분류
     r, g, b = avg_color_rgb
 
-  # 퍼스널 컬러 분류 기준 조정
-    if r > 150 and g > 130 and b > 120:
-        tone = '봄웜'  # 밝고 따뜻한 피부 톤
-    elif 150 > r and 130 > r and b > 100:
-        tone = '가을웜'  # 다소 깊은 따뜻한 톤
-    elif r > 130 and g > 130 and b > 140:
-        tone = '여름쿨'  # 밝고 차가운 톤
-    elif r > 160 and g > 150 and b > 150:
-        tone = '겨울쿨'  # 차갑고 선명한 톤
-    else:
-        tone = '측정할 수 없음'
+    scores = {'봄웜': 0, '가을웜': 0, '여름쿨': 0, '겨울쿨': 0}
+
+    # 조건을 완화하고 각 퍼스널 컬러의 기준에 따라 점수 부여
+    if r > 140 and g > 130 and b > 120:
+        scores['봄웜'] += 3
+    if r > 120 and g > 100 and b > 100:
+        scores['봄웜'] += 1
+
+    if r < 150 and g < 130 and b < 110:
+        scores['가을웜'] += 3
+    if r < 140 and g < 125 and b < 100:
+        scores['가을웜'] += 1
+
+    if r > 130 and g > 130 and b > 140:
+        scores['여름쿨'] += 3
+    if r > 120 and g > 120 and b > 130:
+        scores['여름쿨'] += 1
+
+    if r > 160 and g > 150 and b > 150:
+        scores['겨울쿨'] += 3
+    if r > 150 and g > 140 and b > 140:
+        scores['겨울쿨'] += 1
+
+    # 점수가 가장 높은 톤을 선택
+    tone = max(scores, key=scores.get)
 
     # 데이터베이스에 저장
     conn = sqlite3.connect('tone.db')
