@@ -21,11 +21,6 @@ def name_input():
 def type_selection():
     return render_template('type.html')  # 사용자 이름 전달
 
-# # 4. 설문 시작 라우트
-# @app.route('/survey')
-# def survey():
-#     return render_template('survey.html')  # 설문 페이지
-
 # 5. 사진 분석 시작 라우트
 @app.route('/chap')
 def photo_analysis():
@@ -67,24 +62,24 @@ def analyze_skin_tone(image_data):
     scores = {'봄웜': 0, '가을웜': 0, '여름쿨': 0, '겨울쿨': 0}
 
     # 조건을 완화하고 각 퍼스널 컬러의 기준에 따라 점수 부여
-    if r > 140 and g > 130 and b > 120:
+    if r > 130 and g > 120 and b > 120:
         scores['봄웜'] += 3
-    if r > 120 and g > 100 and b > 100:
+    if r > 120 and g > 120 and b > 110:
         scores['봄웜'] += 1
 
-    if r < 150 and g < 130 and b < 110:
+    if r > 150 and g > 130 and b < 110:
         scores['가을웜'] += 3
-    if r < 140 and g < 125 and b < 100:
+    if r > 130 and g < 125 and b < 100:
         scores['가을웜'] += 1
 
-    if r > 130 and g > 130 and b > 140:
+    if r > 120 and g > 110 and b > 110:
         scores['여름쿨'] += 3
-    if r > 120 and g > 120 and b > 130:
+    if r > 120 and g > 120 and b > 100:
         scores['여름쿨'] += 1
 
-    if r > 160 and g > 150 and b > 150:
+    if r > 110 and g > 100 and b > 130:
         scores['겨울쿨'] += 3
-    if r > 150 and g > 140 and b > 140:
+    if r > 110 and g > 115 and b > 120:
         scores['겨울쿨'] += 1
 
     # 점수가 가장 높은 톤을 선택
@@ -122,11 +117,11 @@ def submit_score():
     
     # 퍼스널 컬러 계산 로직
     if score >= 20:
-        tone = '봄웜'
+        tone = '겨울쿨'
     elif score >= 15:
         tone = '여름쿨'
     elif score >= 10:
-        tone = '가을웜'
+        tone = '봄웜'
     else:
         tone = '겨울쿨'
     
