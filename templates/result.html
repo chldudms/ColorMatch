@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결과 페이지</title>
     <style>
-        body {
-            font-family: 'Noto Sans', sans-serif;
-            background-color: #f0f0f5;
-            color: #333;
-            margin: 0;
-            padding: 0;
+    body,
+        html {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg,
+                    #FFCCDD,
+                    /* 연핑크 */
+                    #FFEBB7,
+                    /* 연노랑 */
+                    #D3F3EE
+                    /* 연민트 */
+                );
+           
+            animation: gradientShift 5s ease infinite;
         }
         .result-container {
             background-color: #fff;
@@ -37,7 +43,7 @@
             margin-bottom: 30px;
         }
         .tone-display {
-            margin-top: 20px;
+            margin-top: 0px;
             padding: 15px;
             font-size: 1.4rem;
             border-radius: 10px;
@@ -52,7 +58,6 @@
 
        /* 컬러 팔레트 */
 .palette {
-    margin-top: 30px;
     text-align: center;
     display: flex;
     flex-wrap: wrap; /* 두 줄로 나열 */
@@ -88,6 +93,7 @@
         }
 
         /* 추천 아이템 */
+        
         .recommendations {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -97,7 +103,7 @@
 
         .recommendation-category {
             margin-top: 20px;
-            text-align: left;
+            text-align: center;
         }
 
         .recommendation-item {
@@ -115,12 +121,12 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .recommendation-item img {
-            width: 100%;
+            width:200px;
+            height: 200px;
             border-radius: 10px;
             margin-bottom: 10px;
         }
-
-        /* 공유 버튼 */
+        /* 다시하기 버튼 */
         .replayBtn {
             margin-top: 40px;
             padding: 12px 24px;
@@ -198,17 +204,17 @@
 
         <!-- 추천 아이템 리스트 -->
         <div class="recommendation-category">
-            <h3>추천 화장품</h3>
+            <h3 class="reCosmetic">추천 화장품</h3>
             <div class="recommendations" id="makeupRecommendations"></div>
         </div>
         
         <div class="recommendation-category">
-            <h3>추천 패션 아이템</h3>
+            <h3 class="reFashion">추천 패션 아이템</h3>
             <div class="recommendations" id="fashionRecommendations"></div>
         </div>
 
         <div class="recommendation-category">
-            <h3>추천 데이트 장소</h3>
+            <h3 class="rePlace">추천 데이트 장소</h3>
             <div class="recommendations" id="dateRecommendations"></div>
         </div>
 
@@ -228,77 +234,78 @@
         // var colorToneElement = document.getElementById('colorTone');
         // colorToneElement.textContent = tone + "톤";
 
-        // 추천 아이템 목록 설정
+      // 추천 아이템 목록 설정
         var recommendations = {
             "여름쿨": {
                 makeup: [
-                    { name: "여쿨 화장품 1", img: "img/롬앤여쿨립.png" },
-                    { name: "여쿨 화장품 2", img: "img/베러댄치크여쿨.png" },
-                    { name: "여쿨 화장품 3", img: "img/여름쿨라이트-섀도우-추천-롬앤-피오니누드가든.png" },
+                    { name: "페리페라 잉크 에어리 벨벳 딱복 피치", img: "/static/img/여쿨립.png" },
+                    { name: "롬앤 베러 댄 팔레트 피오니 가든 룩", img: "/static/img/여쿨팔레트.png" },
+                    { name: "롬앤 베러 댄 치크 오디밀크", img: "/static/img/베러댄치크여쿨.png" },
                 ],
                 fashion: [
-                    { name: "여쿨 옷 1", img: "img/cool-fashion1.jpg" },
-                    { name: "여쿨 옷 2", img: "img/cool-fashion2.jpg" },
-                    { name: "여쿨 옷 3", img: "img/cool-fashion3.jpg" },
+                    { name: "플레이스 스튜디오 후드 크롭 더플 코트 자켓 점퍼", img: "/static/img/여쿨옷1.png" },
+                    { name: "개구리 코스프레", img: "/static/img/여쿨옷2.png" },
+                    { name: "포켓몬 트레이너", img: "/static/img/여쿨옷3.png" },
                 ],
                 date: [
-                    { name: "여쿨 데이트 장소 1", img: "img/cool-date1.jpg" },
-                    { name: "여쿨 데이트 장소 2", img: "img/cool-date2.jpg" },
-                    { name: "여쿨 데이트 장소 3", img: "img/cool-date3.jpg" },
+                    { name: "방방", img: "/static/img/여쿨데이트장소1.jpg" },
+                    { name: "실내 수영장", img: "/static/img/여쿨데이트장소2.jpg" },
+                    { name: "사찰", img: "/static/img/여쿨데이트장소4.jpg" },
                 ],
             },
             "봄웜": {
                 makeup: [
-                    { name: "봄웜 화장품 1", img: "img/warm-makeup1.jpg" },
-                    { name: "봄웜 화장품 2", img: "img/warm-makeup2.jpg" },
-                    { name: "봄웜 화장품 3", img: "img/warm-makeup3.jpg" },
+                    { name: "릴리바이레드 러브빔 치크 밤 - # 06 복숭빔", img: "/static/img/봄웜치크.png" },
+                    { name: "에스쁘아 리얼아이 팔레트, 1호 피치라이크", img: "/static/img/봄웜팔레트.png" },
+                    { name: "페리페라 잉크무드 매트스틱 02 핑크따상", img: "/static/img/봄웜립.png" },
                 ],
                 fashion: [
-                    { name: "봄웜 옷 1", img: "img/warm-fashion1.jpg" },
-                    { name: "봄웜 옷 2", img: "img/warm-fashion2.jpg" },
-                    { name: "봄웜 옷 3", img: "img/warm-fashion3.jpg" },
+                    { name: "비버리 힐스 폴로클럽 여성 펀칭 라운드넥 긴팔니트", img: "/static/img/봄웜옷1.png" },
+                    { name: "칙스 뮤어 투턱 와이드 팬츠 Cream", img: "/static/img/봄웜옷2.png" },
+                    { name: "예일 울 블렌디드 숏 더플 코트_라이트 베이지", img: "/static/img/봄웜옷3.png" },
                 ],
                 date: [
-                    { name: "봄웜 데이트 장소 1", img: "img/warm-date1.jpg" },
-                    { name: "봄웜 데이트 장소 2", img: "img/warm-date2.jpg" },
-                    { name: "봄웜 데이트 장소 3", img: "img/warm-date3.jpg" },
+                    { name: "루피 팝업 스토어", img: "/static/img/봄웜데이트장소3.jpg" },
+                    { name: "올리브영", img: "/static/img/봄웜데이트장소2.jpg" },
+                    { name: "벛꽃 축제", img: "/static/img/봄웜데이트장소4.jpg" },
                 ],
             },
             "가을웜": {
                 makeup: [
-                    { name: "가을웜 화장품 1", img: "img/warm-makeup1.jpg" },
-                    { name: "가을웜 화장품 2", img: "img/warm-makeup2.jpg" },
-                    { name: "가을웜 화장품 3", img: "img/warm-makeup3.jpg" },
+                    { name: "3ce 멀티 아이 컬러 팔레트", img: "/static/img/갈웜팔레트2.png" },
+                    { name: "퓌 립앤치크 블러리 푸딩팟 04 마이", img: "/static/img/갈웜립.png" },
+                    { name: "롬앤 베러 댄 치크 04 페어칩", img: "/static/img/갈웜치크.png" },
                 ],
                 fashion: [
-                    { name: "가을웜 옷 1", img: "img/warm-fashion1.jpg" },
-                    { name: "가을웜 옷 2", img: "img/warm-fashion2.jpg" },
-                    { name: "가을웜 옷 3", img: "img/warm-fashion3.jpg" },
+                    { name: "탱커스 심플 베이직 레더 빅 호보 백", img: "/static/img/갈웜옷1.png" },
+                    { name: "비버리 힐스 폴로 클럽 여성 메탈릭 버튼 니트 가디건", img: "/static/img/갈웜옷2.png" },
+                    { name: "론론 BACK HEART STITCH POCKET SWEAT JOGGER PANTS CREAM YELLOW", img: "/static/img/갈웜옷3.png" },
                 ],
                 date: [
-                    { name: "가을웜 데이트 장소 1", img: "img/warm-date1.jpg" },
-                    { name: "가을웜 데이트 장소 2", img: "img/warm-date2.jpg" },
-                    { name: "가을웜 데이트 장소 3", img: "img/warm-date3.jpg" },
+                    { name: "찜질방", img: "/static/img/갈웜데이트장소1.jpg" },
+                    { name: "예배당", img: "/static/img/갈웜데이트장소2.jpg" },
+                    { name: "단풍축제", img: "/static/img/갈웜데이트장소3.jpg" },
                 ],
             },
             "겨울쿨": {
                 makeup: [
-                    { name: "겨울쿨 화장품 1", img: "img/cool-makeup1.jpg" },
-                    { name: "겨울쿨 화장품 2", img: "img/cool-makeup2.jpg" },
-                    { name: "겨울쿨 화장품 3", img: "img/cool-makeup3.jpg" },
+                    { name: "롬앤 베러 댄 팔레트 베리 푸시아 가든", img: "/static/img/겨쿨팔레트.png" },
+                    { name: "롬앤 쥬시 래스팅 틴트 드래곤 핑크", img: "/static/img/겨쿨립.png" },
+                    { name: "롬앤 쉬어 구슬 파우더 01 글리미 베일", img: "/static/img/겨쿨파우더.jpg" },
                 ],
                 fashion: [
-                    { name: "겨울쿨 옷 1", img: "img/cool-fashion1.jpg" },
-                    { name: "겨울쿨 옷 2", img: "img/cool-fashion2.jpg" },
-                    { name: "겨울쿨 옷 3", img: "img/cool-fashion3.jpg" },
+                    { name: "파묘", img: "/static/img/겨쿨옷1.png" },
+                    { name: "곤룡포", img: "/static/img/겨쿨옷2.png" },
+                    { name: "도라에몽", img: "/static/img/겨쿨옷3.png" },
                 ],
                 date: [
-                    { name: "겨울쿨 데이트 장소 1", img: "img/cool-date1.jpg" },
-                    { name: "겨울쿨 데이트 장소 2", img: "img/cool-date2.jpg" },
-                    { name: "겨울쿨 데이트 장소 3", img: "img/cool-date3.jpg" },
+                    { name: "한강 야간 개장", img: "/static/img/겨쿨데이트장소1.jpg" },
+                    { name: "노래방", img: "/static/img/겨쿨데이트장소2.jpg" },
+                    { name: "여의도 불꽃 축제", img: "/static/img/겨쿨데이트장소3.jpg" },
                 ],
             }
         };
+
 
 
         // 추천 아이템을 페이지에 추가하는 함수
@@ -334,7 +341,7 @@
             });
         }
 
-        // 결과 페이지 공유하기 기능
+        // 다시하기
         function replay() {
           window.location.href='/'
         }

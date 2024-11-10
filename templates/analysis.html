@@ -1,0 +1,68 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>피부톤 분석</title>
+</head>
+
+<body>
+    <h1>사진 촬영 후 피부톤 분석</h1>
+    <div>
+        <video id="video" autoplay style="display:none;"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <button onclick="capturePhoto()">사진 찍기</button>
+    </div>
+    <div id="result"></div>
+    <script>
+      //  function startCamera() {
+                 navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error("웹캠을 사용할 수 없습니다:", err);
+            });
+     //   }
+
+        function capturePhoto() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // 캔버스 크기를 비디오와 맞추고 캡처
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // 캡처한 사진을 데이터 URL로 변환
+            const imageData = canvas.toDataURL('image/png');
+
+            // 서버로 전송
+            fetch('/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text(); // HTML을 받기 위해 text() 사용
+                    } else {
+                        throw new Error('서버 응답에 문제가 있습니다.');
+                    }
+                })
+                .then(html => {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                })
+                .catch(error => {
+                    console.error('오류 발생:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>

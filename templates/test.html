@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Background</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg,
+                    #FFCCDD,
+                    /* 연핑크 */
+                    #FFEBB7,
+                    /* 연노랑 */
+                    #D3F3EE
+                    /* 연민트 */
+                );
+            background-size: 150% 150%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* 그라데이션 효과 애니메이션 */
+        @keyframes gradientShift {
+            0% {
+                background-position: 30% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 30% 50%;
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>나의 퍼스널 컬러 페이지</h1>
+</body>
+
+</html>
