@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
     <title>결과 페이지</title>
     <style>
     body,
@@ -157,48 +158,50 @@
 
 <!-- 컬러 팔레트 -->
 <div class="palette">
-    <h3>추천 컬러 팔레트</h3>
-    <div class="colors">
-        {% if tone == '봄웜' %}
-        <div class="color-box" style="background-color: rgb(255, 228, 196);"></div>
-        <div class="color-box" style="background-color: rgb(255, 192, 203);"></div>
-        <div class="color-box" style="background-color: rgb(255, 218, 185);"></div>
-        <div class="color-box" style="background-color: rgb(255, 236, 186);"></div>
-        <div class="color-box" style="background-color: rgb(255, 204, 112);"></div>
-        <div class="color-box" style="background-color: rgb(253, 189, 186);"></div>
-        <div class="color-box" style="background-color: rgb(240, 174, 76);"></div>
-        <div class="color-box" style="background-color: rgb(255, 153, 0);"></div>
-        {% elif tone == '가을웜' %}
-        <div class="color-box" style="background-color: rgb(255, 165, 0);"></div>
-        <div class="color-box" style="background-color: rgb(205, 133, 63);"></div>
-        <div class="color-box" style="background-color: rgb(255, 99, 71);"></div>
-        <div class="color-box" style="background-color: rgb(255, 182, 193);"></div>
-        <div class="color-box" style="background-color: rgb(139, 69, 19);"></div>
-        <div class="color-box" style="background-color: rgb(255, 215, 0);"></div>
-        <div class="color-box" style="background-color: rgb(188, 143, 143);"></div>
-        <div class="color-box" style="background-color: rgb(255, 140, 0);"></div>
-        {% elif tone == '여름쿨' %}
-        <div class="color-box" style="background-color: rgb(173, 216, 230);"></div>
-        <div class="color-box" style="background-color: rgb(135, 206, 250);"></div>
-        <div class="color-box" style="background-color: rgb(240, 248, 255);"></div>
-        <div class="color-box" style="background-color: rgb(220, 220, 220);"></div>
-        <div class="color-box" style="background-color: rgb(176, 224, 230);"></div>
-        <div class="color-box" style="background-color: rgb(240, 255, 255);"></div>
-        <div class="color-box" style="background-color: rgb(173, 216, 230);"></div>
-        <div class="color-box" style="background-color: rgb(135, 206, 250);"></div>
-        {% elif tone == '겨울쿨' %}
-        <div class="color-box" style="background-color: rgb(0, 139, 139);"></div>
-        <div class="color-box" style="background-color: rgb(70, 130, 180);"></div>
-        <div class="color-box" style="background-color: rgb(25, 25, 112);"></div>
-        <div class="color-box" style="background-color: rgb(112, 128, 144);"></div>
-        <div class="color-box" style="background-color: rgb(0, 255, 255);"></div>
-        <div class="color-box" style="background-color: rgb(30, 144, 255);"></div>
-        <div class="color-box" style="background-color: rgb(0, 191, 255);"></div>
-        <div class="color-box" style="background-color: rgb(123, 104, 238);"></div>
-        {% else %}
-        <p>측정할 수 없음</p>
-        {% endif %}
-    </div>
+<h3>추천 컬러 팔레트</h3>
+<div class="colors">
+    {% if tone == '봄웜' %}
+    <div class="color-box" style="background-color: rgb(255, 182, 193);"></div> <!-- 연한 코랄 -->
+    <div class="color-box" style="background-color: rgb(144, 238, 144);"></div> <!-- 연두색 -->
+    <div class="color-box" style="background-color: rgb(189, 252, 201);"></div> <!-- 민트 -->
+    <div class="color-box" style="background-color: rgb(255, 255, 153);"></div> <!-- 버터 노랑 -->
+    <div class="color-box" style="background-color: rgb(255, 165, 0);"></div> <!-- 라이트 오렌지 -->
+    <div class="color-box" style="background-color: rgb(255, 218, 185);"></div> <!-- 살구색 -->
+    <div class="color-box" style="background-color: rgb(255, 182, 193);"></div> <!-- 연분홍 -->
+    <div class="color-box" style="background-color: rgb(135, 206, 235);"></div> <!-- 하늘색 -->
+    {% elif tone == '여름쿨' %}
+    <div class="color-box" style="background-color: rgb(174, 198, 255);"></div> <!-- 파스텔 블루 -->
+    <div class="color-box" style="background-color: rgb(230, 230, 250);"></div> <!-- 라벤더 -->
+    <div class="color-box" style="background-color: rgb(152, 255, 152);"></div> <!-- 민트 그린 -->
+    <div class="color-box" style="background-color: rgb(255, 182, 193);"></div> <!-- 밝은 핑크 -->
+    <div class="color-box" style="background-color: rgb(200, 162, 200);"></div> <!-- 연보라 -->
+    <div class="color-box" style="background-color: rgb(192, 192, 192);"></div> <!-- 실버 그레이 -->
+    <div class="color-box" style="background-color: rgb(173, 216, 230);"></div> <!-- 연한 블루 -->
+    <div class="color-box" style="background-color: rgb(210, 180, 220);"></div> <!-- 차가운 라일락 -->
+    {% elif tone == '가을웜' %}
+    <div class="color-box" style="background-color: rgb(255, 140, 0);"></div> <!-- 진한 오렌지 -->
+    <div class="color-box" style="background-color: rgb(178, 34, 34);"></div> <!-- 브릭 레드 -->
+    <div class="color-box" style="background-color: rgb(189, 183, 107);"></div> <!-- 카키 -->
+    <div class="color-box" style="background-color: rgb(139, 69, 19);"></div> <!-- 브라운 -->
+    <div class="color-box" style="background-color: rgb(128, 128, 0);"></div> <!-- 올리브 그린 -->
+    <div class="color-box" style="background-color: rgb(255, 219, 51);"></div> <!-- 머스타드 -->
+    <div class="color-box" style="background-color: rgb(0, 128, 0);"></div> <!-- 타르트 그린 -->
+    <div class="color-box" style="background-color: rgb(255, 163, 83);"></div> <!-- 카라멜 -->
+    {% elif tone == '겨울쿨' %}
+    <div class="color-box" style="background-color: rgb(0, 0, 128);"></div> <!-- 네이비 블루 -->
+    <div class="color-box" style="background-color: rgb(54, 69, 79);"></div> <!-- 차콜 그레이 -->
+    <div class="color-box" style="background-color: rgb(255, 0, 0);"></div> <!-- 레드 -->
+    <div class="color-box" style="background-color: rgb(255, 255, 255);"></div> <!-- 화이트 -->
+    <div class="color-box" style="background-color: rgb(75, 0, 130);"></div> <!-- 어두운 보라 -->
+    <div class="color-box" style="background-color: rgb(0, 255, 255);"></div> <!-- 시안 -->
+    <div class="color-box" style="background-color: rgb(0, 0, 139);"></div> <!-- 딥 블루 -->
+    <div class="color-box" style="background-color: rgb(255, 255, 240);"></div> <!-- 아이보리 -->
+    {% else %}
+    <p>측정할 수 없음</p>
+    {% endif %}
+</div>
+
+
 
 </div>
 
@@ -243,7 +246,7 @@
                     { name: "롬앤 베러 댄 치크 오디밀크", img: "/static/img/베러댄치크여쿨.png" },
                 ],
                 fashion: [
-                    { name: "플레이스 스튜디오 후드 크롭 더플 코트 자켓 점퍼", img: "/static/img/여쿨옷1.png" },
+                    { name: "펭도리", img: "/static/img/여쿨옷1.png" },
                     { name: "개구리 코스프레", img: "/static/img/여쿨옷2.png" },
                     { name: "포켓몬 트레이너", img: "/static/img/여쿨옷3.png" },
                 ],
@@ -291,7 +294,7 @@
                 makeup: [
                     { name: "롬앤 베러 댄 팔레트 베리 푸시아 가든", img: "/static/img/겨쿨팔레트.png" },
                     { name: "롬앤 쥬시 래스팅 틴트 드래곤 핑크", img: "/static/img/겨쿨립.png" },
-                    { name: "롬앤 쉬어 구슬 파우더 01 글리미 베일", img: "/static/img/겨쿨파우더.jpg" },
+                    { name: "롬앤 쉬어 구슬 파우더 01 글리미 베일", img: "/static/img/겨쿨파우더.png" },
                 ],
                 fashion: [
                     { name: "파묘", img: "/static/img/겨쿨옷1.png" },
@@ -343,7 +346,7 @@
 
         // 다시하기
         function replay() {
-          window.location.href='/'
+          window.location.href='/'  //flask로 기본 루트인 index.html호출
         }
 
         // 페이지 로드 시 추천 아이템 표시
