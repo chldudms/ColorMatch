@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
     <title>얼굴 촬영</title>
     <style>
         body {
@@ -80,9 +81,7 @@
             <p>* 조명에 따라 다른 결과가 나타날 수 있습니다. *</p>
     </div>
 
-
-
-    <div class="container hidden" id="confirmation-screen">
+    <div class="container hidden" id="confirmation-screen"> <!--사진 확인창-->
         <h1>사진 확인</h1>
         <img id="captured-image" src="" alt="촬영된 이미지">
         <button class="retake-btn" id="retake">재촬영</button>
@@ -90,7 +89,7 @@
     </div>
 
     <script>
-        const video = document.getElementById('video');
+        const video = document.getElementById('video'); 
         const canvas = document.getElementById('canvas');
         const captureButton = document.getElementById('capture');
         const confirm = document.getElementById('confirmation-screen');
@@ -98,7 +97,6 @@
         const capturedImage = document.getElementById('captured-image');
         const context = canvas.getContext('2d');
 
-   
                 video.style.display = 'block'; // 비디오를 화면에 표시
                 navigator.mediaDevices.getUserMedia({ video: true })
                     .then(stream => {
@@ -107,46 +105,46 @@
                     .catch(error => {
                         console.error("카메라 접근 오류:", error);
                     });
-           captureButton.addEventListener('click', () => {
-                canvas.width = video.videoWidth;
+           captureButton.addEventListener('click', () => { //캡처버튼을 눌렀을떄
+                canvas.width = video.videoWidth;  
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                            //캔버스 넓이,높이 만큼 캡처화면 그리기
+                const imageData = canvas.toDataURL('image/png');  //base64:이미지 파일을 텍스트 형태로 인코딩한 문자열
+                capturedImage.src = imageData;  //src에 넣으면 이미지 파일이 없어도 이미지를 쓸 수 있음
 
-                const imageData = canvas.toDataURL('image/png');
-                capturedImage.src = imageData;
-
-                captureScreen.classList.add('hidden');
-                confirm.classList.remove('hidden');
+                captureScreen.classList.add('hidden');  //캡처화면 숨기기 - display='none'에 추가되어 화면이 보이지 않음
+                confirm.classList.remove('hidden');  //컨펌창 보이기 -  hidden에서 삭제하므로 display='block'
             });
-
-
-           document.getElementById('retake').addEventListener('click', () => {
-            confirm.classList.add('hidden');
-            captureScreen.classList.remove('hidden');
+             //다시 찍기 버튼을 눌렀을때
+           document.getElementById('retake').addEventListener('click', () => { 
+            confirm.classList.add('hidden');  // 컨펌창 숨기기
+            captureScreen.classList.remove('hidden');  //캡처화면 다시 보내기
         });
 
-        document.getElementById('proceed').addEventListener('click', () => {
+        document.getElementById('proceed').addEventListener('click', () => {  //사진 확인 버튼을 눌렀을때
             const imageData = canvas.toDataURL('image/png');
-
+            
             // 서버로 전송
-            fetch('/analyze', {
+            fetch('/analyze', { //서버에 HTTP 통신으로 이미지 분석 요청을 보내고, 응답을 받을 수 있음.
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ image: imageData })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text(); // HTML을 받기 위해 text() 사용
+                headers: { 'Content-Type': 'application/json' },  
+                body: JSON.stringify({ image: imageData })  //이미지 데이터를 json타입으로 변환해서 전송
+               //키 : image, 값: imageData
+            })    //응답이 왔을때
+                .then(response => {   
+                    if (response.ok) {//응답이 됐을때 - 사진이 보내졌을떄
+                        return response.text(); //서버로부터 받은 응답 데이터를 텍스트 형식으로 변환하는 메서드
                     } else {
                         throw new Error('서버 응답에 문제가 있습니다.');
                     }
                 })
-                .then(html => {
-                    document.open();
+                .then(html => {  //result페이지 받아서 띄우기
+                    document.open();  //서버에서 받은 HTML로 페이지를 덮어쓰기 위해 사용
                     document.write(html);
                     document.close();
                 })
-                .catch(error => {
+                .catch(error => {  //예외발생
                     console.error('오류 발생:', error);
                 });
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
     <title>퍼스널컬러 진단 선택 페이지</title>
     <style>
         * {
@@ -78,13 +79,13 @@
         </div>
     </div>
     <script>
-        chap = document.getElementById('chapture');
-        surv =  document.getElementById('survey');
+        chap = document.getElementById('chapture'); 
+        surv =  document.getElementById('survey'); 
 
-        chap.addEventListener('click', (e) => {
+        chap.addEventListener('click', (e) => {  //캡처 랜더링 함수 호출
             window.location.href="/chap"
         })
-       surv.addEventListener('click', (e) => {
+       surv.addEventListener('click', (e) => {   //설문 랜더링 함수 호출
             window.location.href="/survey"
         })
     </script>

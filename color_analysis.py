@@ -81,7 +81,7 @@ def analyze():
     image_data = data.get('image')
     tone = analyze_skin_tone(image_data)
     print(tone)
-    return render_template('result1.html', tone=tone)
+    return render_template('result.html', tone=tone)
 
 @app.route('/')
 def index():
