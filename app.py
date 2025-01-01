@@ -29,7 +29,7 @@ def photo_analysis():
 # 얼굴 인식 및 피부톤 분석 함수
 def analyze_skin_tone(image_data):
     # 데이터 URL에서 Base64 부분만 추출
-    header, encoded = image_data.split(',', 1) #base64로 인코딩된 문자열을 가져옴
+    header, encoded = image_data.split(',', 1) #baseS64로 인코딩된 문자열을 가져옴
     image_data = np.frombuffer(base64.b64decode(encoded), np.uint8)   #Base64 인코딩된 문자열을 바이트 데이터로 변환 - np배열로 저장
     img = cv2.imdecode(image_data, cv2.IMREAD_COLOR) #이미지 배열을 실제 이미지로 디코딩, 컬러로 이미지를 읽어들임
 
@@ -47,18 +47,19 @@ def analyze_skin_tone(image_data):
 
     # 첫 번째 얼굴 영역 선택
     (x, y, w, h) = faces[0]  
-    face_region = img[y:y+h, x:x+w]  
+    face_region = img[y:y+h, x:x+w] #이미지의 얼굴영역을 잘라냄
 
-    # 얼굴 영역에서 평균 색상 계산
-    avg_color_per_row = np.average(face_region, axis=0)
-    avg_color = np.average(avg_color_per_row, axis=0)
+    # 얼굴 영역에서 평균 색상 계산  
+    avg_color_per_row = np.average(face_region, axis=0)  #세로 방향 계산
+    avg_color = np.average(avg_color_per_row, axis=0) 
+    #얼굴 영역 전체 rgb값 평균
 
-    # BGR에서 RGB로 변환
+    # BGR에서 RGB로 변환 
     avg_color_rgb = avg_color[::-1]  #배열형식 반대로
     print(f"얼굴 평균 RGB 색상: {avg_color_rgb}")  # 디버깅용 출력
 
     # RGB 색상으로 피부톤 분류
-    r, g, b = avg_color_rgb
+    r, g, b = avg_color_rgb 
 
     scores = {'봄웜': 0, '가을웜': 0, '여름쿨': 0, '겨울쿨': 0}
 
@@ -130,6 +131,7 @@ def submit_score():
 
 #설문,캡처 두 방법이 달라서 톤을 받고 결과페이지에 출력할때 다른 루트를 사용
 
+# 결과 - 캡처 페이지
 @app.route('/analyze', methods=['POST'])  
 def analyze():
     data = request.get_json()  #json으로 전송된 데이터를 저장
@@ -137,8 +139,8 @@ def analyze():
     tone = analyze_skin_tone(image_data)  #함수를 사용해서 이미지 분석
     print(tone)  #터미널에 톤 출력
     return render_template('result.html', tone=tone)  #결과 페이지 랜더링, tone데이터 보내기
-
-# 결과 페이지 
+ 
+# 결과 페이지 - 설문 루트
 @app.route('/result')
 def result():
     # 최근 톤 결과를 가져와 결과 페이지에 전달
